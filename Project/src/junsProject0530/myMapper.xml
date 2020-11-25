@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="loginmapper">
+	<insert id="insertOrderInfo" parameterType="junsProject0530.OrderInfo">
+		insert into order_db values(no_seq1.nextval, to_char(sysdate, 'yymmdd hh24:mi'), 
+		#{order_list}, #{order_price}, #{order_option})
+	</insert>
+	
+	<insert id="changeOrderInfo" parameterType="junsProject0530.OrderInfo">
+		insert into order_db values(no_seq1.nextval, #{order_time}, 
+		#{order_list}, #{order_price}, #{order_option})
+	</insert>
+	
+	<select id="selectOrderInfo" resultType="junsProject0530.OrderInfo">
+		select * from order_db
+	</select>
+	
+	<insert id="insertNoticeInfo" parameterType="junsProject0530.NoticeInfo">
+		insert into notice_db values(no_seq2.nextval, to_char(sysdate, 'yymmdd hh24:mi'), 
+		#{notice_title}, #{notice_contents})
+	</insert>
+	
+	<select id="selectNoticeInfo" resultType="junsProject0530.NoticeInfo">
+		select * from notice_db
+	</select>
+	
+	<update id="updateNoticeInfo" parameterType="junsProject0530.NoticeInfo">
+		update notice_db set notice_title = #{notice_title},
+		 notice_contents =#{notice_contents} 
+		 where notice_number = #{notice_number}
+	</update>
+	
+	<delete id="deleteNoticeInfo" parameterType="int">
+		delete from notice_db where notice_number = #{notice}
+	</delete>
+	
+	
+	<select id="selectStaffInfo" resultType="junsProject0530.StaffInfo">
+		select * from staff_db
+	</select>
+	
+	<select id="selectStaffCode" parameterType="String"
+		resultType="junsProject0530.StaffInfo">
+		select * from staff_db where staff_id = #{staff_id}
+	</select>
+	
+	<select id="selectIdPwd" parameterType="junsProject0530.StaffInfo"
+		resultType="junsProject0530.StaffInfo">
+		select * from staff_db
+		where staff_id = #{staff_id} and staff_password = #{staff_password}
+	</select>
+	
+	<insert id="insertStaffInfo" parameterType="junsProject0530.StaffInfo">
+		insert into staff_db values(#{staff_id}, #{staff_name}, 
+		#{staff_level}, #{staff_gender}, #{staff_tel}, #{staff_password})
+	</insert>
+	
+	<update id="updateStaffInfo2" parameterType="junsProject0530.StaffInfo">
+		update staff_db set staff_tel = #{staff_tel} 
+		 where staff_id = #{staff_id}
+	</update>
+	
+	
+	<update id="updateStaffInfo" parameterType="junsProject0530.StaffInfo">
+		update staff_db set staff_name = #{staff_name}, staff_gender = #{staff_gender}, staff_level = #{staff_level}, staff_tel = #{staff_tel}, staff_password =#{staff_password} 
+		 where staff_id = #{staff_id}
+	</update>
+	
+	<select id="selectStockCode" parameterType="int"
+		resultType="junsProject0530.StockInfo">
+		select * from stock_db where stock_number = #{stock_number}
+	</select>
+	
+	<select id="selectStockInfo" resultType="junsProject0530.StockInfo">
+		select * from stock_db
+	</select>
+	
+	<update id="updateStockInfo" parameterType="junsProject0530.StockInfo">
+		update stock_db set stock_number = #{stock_number}, stock_name = #{stock_name}, stock_volume =#{stock_volume}, 
+		stock_unit = #{stock_unit}, stock_consume = #{stock_consume} 
+		 where stock_number = #{stock_number}
+	</update>
+	
+	<select id="selectSumSaledInfo" parameterType="String"
+		resultType="int">
+		select sum(order_price) from order_db where order_time like '%' || #{code} || '%'
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
